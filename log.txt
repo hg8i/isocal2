@@ -1,0 +1,20 @@
+VIEW: 53 86
+VIEW: doing rescale
+VIEW: clearCommandScreen
+VIEW: clearlistScreen
+VIEW: cleargridScreen
+VIEW: making screens
+VIEW: updateCommandScreen
+VIEW: updatelistScreen
+VIEW: updategridScreen
+40 86
+2 6 34 77
+MODEL: Starting controller
+MODEL: Starting view
+CONTROLLER: run
+Char: 106 j
+Char: 106 j
+Char: 106 j
+Char: 113 q
+MODEL: Stopping controller
+MODEL: Stopping view
