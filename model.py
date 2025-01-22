@@ -92,6 +92,7 @@ class model:
         self.processResize()
 
     def _act_quit(self):
+        self.stopIcsDownload() # do first
         self.stopController()
         self.stopIndex()
         self.stopView()
@@ -776,6 +777,16 @@ class model:
     def stopIndex(self):
         log("MODEL: Stopping index")
         self.indexThread.terminate()
+
+
+    def stopIcsDownload(self):
+        log("MODEL: Stopping icsDownloadThread")
+        if self.icsDownloadThread:
+            # if alive, don't interrupt
+            while self.icsDownloadThread.is_alive(): 
+                self.message("Waiting for ICS update to finish")
+                time.sleep(0.1)
+            self.icsDownloadThread.terminate()
 
 
     def startView(self):

@@ -34,7 +34,8 @@ thispath = os.path.dirname(os.path.abspath(__file__))
 settings = {}
 settings["listHeight"] = 11
 
-settings["pickleDir"] = "/home/prime/dev/isocal2/data"
+settings["pickleDir"] = "/afs/cern.ch/user/a/aawhite/remote/isocal2"
+# settings["pickleDir"] = "/home/prime/dev/isocal2/data"
 
 
 color_green=2
