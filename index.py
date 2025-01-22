@@ -1,8 +1,5 @@
 # import dill as pickle
-import os
-from datetime import datetime
-import time
-from collections import defaultdict
+from setup import *
 
 """
 This class manages the index of cal data.
@@ -104,11 +101,11 @@ class eventdata:
 
 
 class calindex:
-    def __init__(self,pickleDir,outputq=False,inputq=False,event=False):
+    def __init__(self,dataPath,outputq=False,inputq=False,event=False):
         self._event      = event
         self._output     = outputq
         self._input      = inputq  
-        self._pickleDir  = pickleDir
+        self._dataPath   = dataPath
         self._data       = {}
         self._modtimeAtLoad  = {}
         self._ids        = defaultdict(list) # created dynamic
@@ -117,7 +114,7 @@ class calindex:
 
     # def idExists(self,year,uniqueid):
     #     """ check if id exists, stored in file """
-    #     path = os.path.join(self._pickleDir,f"ids.txt")
+    #     path = os.path.join(self._dataPath,f"ids.txt")
     #     self._load(year)
     #     return uniqueid in self._ids[year]
 
@@ -321,7 +318,7 @@ class calindex:
         return f"modified event {depth}"
 
     def _getPath(self,year):
-        path = os.path.join(self._pickleDir,f"{year}.csv")
+        path = os.path.join(self._dataPath,f"{year}.csv")
         return path
 
     def _loadFile(self,path):
@@ -337,6 +334,7 @@ class calindex:
 
     def _load(self,year):
         """ Load this year """
+        self._checkDirectoryPermission()
         if year in self._data.keys(): return
         log(f"INDEX: Loading year {year}")
         path = self._getPath(year)
@@ -381,7 +379,8 @@ class calindex:
     def _save(self):
         """ Save changes based on _modifiedYears """
         # Return True if successful
-        log(f"INDEX: Saving to {self._pickleDir}")
+        self._checkDirectoryPermission()
+        log(f"INDEX: Saving to {self._dataPath}")
         for year in self._modifiedYears.keys():
             # save data for this year
             path = self._getPath(year)
@@ -398,8 +397,28 @@ class calindex:
                 self._modtimeAtLoad[year] = os.path.getmtime(path)
         return True
 
+
+
+    def _checkDirectoryPermission(self):
+        """ see if permissions for directory, try recovery """
+        # path = os.path.join(self._dataPath,f"{year}.csv")
+        status = settings["refreshPermission"](self._dataPath)
+        if status:
+            if self._output:
+                data = {}
+                data["type"] = "error"
+                data["status"] = f"directory permissions {status}"
+                self._output.put(data)
+                self._event.set()
+            else:
+                print(f"Permissions error: read={not noRead} write={not noWrite}. Recovery={cmd}: {result.stdout}")
+                # quit()
+            return True
+        return False
+
+
     def load(self,oFile):
-        """ Replacement for pickle load """
+        """ Replacement for data load """
         return {}
 
     def __str__(self):
@@ -429,7 +448,11 @@ def eventHelper(dt):
 if __name__=="__main__":
     import random
     # os.popen("rm data/*")
-    i = calindex("data")
+    os.popen("mkdir -p debug/data/").read()
+    os.popen("rm debug/data/*")
+
+    i = calindex("/afs/cern.ch/user/a/aawhite/remote/isocal2")
+    # i = calindex("debug/data")
 
     # for x in range(100):
     #     i.addEvent(eventHelper(datetime(2025,1,random.randint(1,26))))
@@ -440,6 +463,7 @@ if __name__=="__main__":
     # i.addEvent(ev)
     # i.delEvent(ev)
 
+    # check resync
     os.popen("touch data/2025.csv").read()
 
     for x in range(4):
@@ -460,3 +484,4 @@ if __name__=="__main__":
     # event["time"] = None
     # event["note"] = "This is the note"
     # i.setEvent(d,event)
+    print("done")

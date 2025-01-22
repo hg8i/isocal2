@@ -329,7 +329,7 @@ class model:
             self._dialogFields = []
             i = 0
             self._dialogFields += [{"name":"Info","type":"divider","content":"-"}]
-            self._dialogFields += [{"name":"dataPath","type":"label","content":settings["pickleDir"]}]
+            self._dialogFields += [{"name":"dataPath","type":"label","content":settings["dataPath"]}]
             self._dialogFields += [{"name":"Hotkeys","type":"divider","content":"-"}]
             for k,v in settings["hotkeyMap"].items():
                 self._dialogFields += [{"name":k,"type":"label","content":v["description"]}]
@@ -765,7 +765,7 @@ class model:
     def startIndex(self):
         log("MODEL: Starting index")
 
-        self._index = calindex(settings["pickleDir"],
+        self._index = calindex(settings["dataPath"],
                               inputq = self._index_i,
                               outputq= self._index_o,
                               event  = self._event,
@@ -835,11 +835,9 @@ class model:
                 self.message(f"")
                 char = self._char_queue.get()
                 log("Char:",char,chr(char))
-
                 if chr(char) in self._hotkeyMap.keys():
                     command = self._hotkeyMap[chr(char)]["function"]
                     self._commandMap[command](None)
-
                 if char==410: #resize
                     self.processResize()
 
@@ -847,7 +845,6 @@ class model:
             iEvent=0
             while not self._icsDownload_o.empty():
                 update = self._icsDownload_o.get()
-
                 if update["type"] == "icsEvents":
                     self.message(f"Downloading: {update['name']}")
                     for event in update["events"]:
@@ -870,7 +867,14 @@ class model:
                     self._updateDays()
                     self._act_select(0) # update focus for new day content
 
+                elif update["type"] == "error":
+                    status = update["status"]
+                    self.message(f"Index: {status}")
+
+                # debugging
                 # elif update["type"] == "confirm":
                 #     action = update["action"]
                 #     result = update["result"]
                 #     self.message(f"{action}: {result}")
+
+

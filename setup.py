@@ -9,8 +9,7 @@ import pickle
 import math
 import random
 import copy
-
-from subprocess import call
+import subprocess
 
 logon = True
 os.popen("rm log.txt"); time.sleep(0.01)
@@ -34,8 +33,26 @@ thispath = os.path.dirname(os.path.abspath(__file__))
 settings = {}
 settings["listHeight"] = 11
 
-settings["pickleDir"] = "/afs/cern.ch/user/a/aawhite/remote/isocal2"
-# settings["pickleDir"] = "/home/prime/dev/isocal2/data"
+settings["dataPathCmd"] = 'bash -c "source ~/.bashlocal && afsAuth"'
+settings["dataPath"] = "/afs/cern.ch/user/a/aawhite/remote/isocal2"
+# settings["dataPatn"] = "/home/prime/dev/isocal2/data"
+
+def refreshPermission(path):
+    log(f"DIRECTORY: check: {path}")
+    noRead  = not os.access(path, os.R_OK)
+    noWrite = not os.access(path, os.W_OK)
+    log(f"DIRECTORY: check: read={not noRead} write={not noWrite}")
+    if noRead or noWrite:
+        cmd = settings["dataPathCmd"]
+        log(f"DIRECTORY: recovery command: {cmd}")
+        result = subprocess.run( cmd, capture_output=True, text=True, shell=True)
+        authStatus = f"read={not noRead} write={not noWrite}. {str(result.stdout)} {str(result.stderr)}"
+        log(f"DIRECTORY: Authentication: {result.stdout}")
+        log(f"DIRECTORY: Authentication: {result.stderr}")
+        return authStatus
+    else:
+        return False
+settings["refreshPermission"] = refreshPermission
 
 
 color_green=2
@@ -86,7 +103,7 @@ uiColors["gridView"]           =  defaultColor
 uiColors["dayNames"]           = [defaultBg, defaultFg]
 uiColors["highlight"]          = [defaultFg, defaultBg]
 uiColors["contentFocus"]       = [color_midnight_blue,  defaultFg]
-uiColors["firstDay"]           = [defaultBg, color_dark_grey]
+uiColors["firstDay"]           = [defaultBg, color_dark_yellow]
 # category colors
 uiColors["eventDefault"]       =  defaultColor
 uiColors["invalidCategory"]    = [defaultBg, defaultFg]
@@ -153,13 +170,20 @@ settings["hotkeyMap"] = hotkeyMap
 
 # ICS calendars may use private keys that should be stored safely somewhere
 # How you do that is up to you
-import os
 privateSettingsPath = "/home/prime/afs/remote/isoplan/privateSettings.py"
-# create if needed
+settings["refreshPermission"](privateSettingsPath)
 if not os.path.exists(privateSettingsPath):
     settings["downloadIcsCalendars"]=[]
 else:
-    settings["downloadIcsCalendars"] = eval(open(privateSettingsPath).read())
+    try:
+        log(f"SETTINGS: {privateSettingsPath}")
+        data = open(privateSettingsPath,"r").read()
+        log(f"SETTINGS: data open")
+        settings["downloadIcsCalendars"] = eval(data)
+        log(f"SETTINGS: evaluated")
+    except:
+        print(f"Unable to load ICS calendar file: {privateSettingsPath}. Check permissions/loading.")
+        quit()
 settings["timezone"] = "Europe/Paris"
 
 settings["showSideYears"] = False
