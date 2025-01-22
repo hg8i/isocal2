@@ -12,6 +12,10 @@ class controller:
 
     def run(self):
         log("CONTROLLER: run")
+
+        # self._charq.put(ord("r"))
+        # self._event.set()
+
         while True:
 
             char = self._screen.getch()

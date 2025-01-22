@@ -1,20 +1,648 @@
-VIEW: 53 86
+MODEL: Starting index
+VIEW: 43 65
 VIEW: doing rescale
 VIEW: clearCommandScreen
 VIEW: clearlistScreen
 VIEW: cleargridScreen
 VIEW: making screens
-VIEW: updateCommandScreen
-VIEW: updatelistScreen
-VIEW: updategridScreen
-40 86
-2 6 34 77
+INDEX: running
+VIEW: making dialog screen
+VIEW: making search screen
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year not loaded, no sync
+INDEX: Loading year 2025
+Launch ICS update
 MODEL: Starting controller
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
 MODEL: Starting view
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
 CONTROLLER: run
+VIEW: 43 65
+VIEW: doing rescale
+VIEW: clearCommandScreen
+VIEW: clearlistScreen
+VIEW: cleargridScreen
+VIEW: making screens
+VIEW: making dialog screen
+VIEW: making search screen
+--------------------------------------------------
+INDEX: Adding event: ATLAS Weekly
+INDEX: skipping existing event ATLAS Weekly
+--------------------------------------------------
+INDEX: Adding event: ATLAS Weekly/Open EB
+INDEX: skipping existing event ATLAS Weekly/Open EB
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+--------------------------------------------------
+INDEX: Adding event: NSW Trigger Path commissioning meeting
+INDEX: skipping existing event NSW Trigger Path commissioning meeting
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+--------------------------------------------------
+INDEX: Adding event: Harvard Group Meeting
+INDEX: skipping existing event Harvard Group Meeting
+--------------------------------------------------
+INDEX: Adding event: Harvard Group Meeting
+INDEX: skipping existing event Harvard Group Meeting
+--------------------------------------------------
+INDEX: Adding event: Harvard Group Meeting
+INDEX: skipping existing event Harvard Group Meeting
+--------------------------------------------------
+INDEX: Adding event: Harvard Group Meeting
+INDEX: skipping existing event Harvard Group Meeting
+--------------------------------------------------
+INDEX: Adding event: Harvard Group Meeting
+INDEX: skipping existing event Harvard Group Meeting
+--------------------------------------------------
+INDEX: Adding event: Harvard Group Meeting
+INDEX: skipping existing event Harvard Group Meeting
+--------------------------------------------------
+INDEX: Adding event: Harvard Group Meeting
+INDEX: skipping existing event Harvard Group Meeting
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+--------------------------------------------------
+INDEX: Adding event: Muon DCS Work Meeting
+INDEX: skipping existing event Muon DCS Work Meeting
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+Char: 99 c
+VIEW: making dialog screen
+Char for dialog navigation: 106 j
+Char for dialog navigation: 99 c
+Char for dialog: 116 t
+Char for dialog: 101 e
+Char for dialog: 115 s
+Char for dialog: 116 t
+Char for dialog: 10 
+
+Char for dialog navigation: 10 
+
+MODEL: modified event cat=test
+VIEW: making screens
+INDEX: modified event cat=test
+INDEX: Saving to /home/prime/dev/isocal2/data
+INDEX: <synchronize> year 2025
+INDEX: Saving 2025 to /home/prime/dev/isocal2/data/2025.csv
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+--------------------------------------------------
+INDEX: Adding event: Beautiful Run 3 TLA:ISR+Di-b-jets Analysis meeting
+INDEX: skipping existing event Beautiful Run 3 TLA:ISR+Di-b-jets Analysis meeting
+--------------------------------------------------
+INDEX: Adding event: Beautiful Run 3 TLA:ISR+Di-b-jets Analysis meeting
+INDEX: skipping existing event Beautiful Run 3 TLA:ISR+Di-b-jets Analysis meeting
+--------------------------------------------------
+INDEX: Adding event: Beautiful Run 3 TLA:ISR+Di-b-jets Analysis meeting
+INDEX: skipping existing event Beautiful Run 3 TLA:ISR+Di-b-jets Analysis meeting
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+--------------------------------------------------
+INDEX: Adding event: Exotics: Jet\, Met + X (JMX) Meeting
+INDEX: skipping existing event Exotics: Jet\, Met + X (JMX) Meeting
+--------------------------------------------------
+INDEX: Adding event: Exotics: Lepton + X
+INDEX: skipping existing event Exotics: Lepton + X
+--------------------------------------------------
+INDEX: Adding event: Heavy Quarks and Top Subgroup Meeting
+INDEX: skipping existing event Heavy Quarks and Top Subgroup Meeting
+--------------------------------------------------
+INDEX: Adding event: Combinations Crosstalk Summaries (CCS) sub-group meeting
+INDEX: skipping existing event Combinations Crosstalk Summaries (CCS) sub-group meeting
+--------------------------------------------------
+INDEX: Adding event: Exotics LUP Subgroup Meeting
+INDEX: skipping existing event Exotics LUP Subgroup Meeting
+--------------------------------------------------
+INDEX: Adding event: Exotics: Jets\, Met+X (JMX)
+INDEX: skipping existing event Exotics: Jets\, Met+X (JMX)
+--------------------------------------------------
+INDEX: Adding event: Exotics: Lepton + X
+INDEX: skipping existing event Exotics: Lepton + X
+--------------------------------------------------
+INDEX: Adding event: Heavy Quarks and Top Subgroup Meeting
+INDEX: skipping existing event Heavy Quarks and Top Subgroup Meeting
+--------------------------------------------------
+INDEX: Adding event: Exotics LUP Subgroup Meeting
+INDEX: skipping existing event Exotics LUP Subgroup Meeting
+--------------------------------------------------
+INDEX: Adding event: Exotics: Jets\, Met + X (JMX) Meeting
+INDEX: skipping existing event Exotics: Jets\, Met + X (JMX) Meeting
+--------------------------------------------------
+INDEX: Adding event: Exotics: Lepton + X
+INDEX: skipping existing event Exotics: Lepton + X
+--------------------------------------------------
+INDEX: Adding event: Heavy Quarks and Top Subgroup Meeting
+INDEX: skipping existing event Heavy Quarks and Top Subgroup Meeting
+--------------------------------------------------
+INDEX: Adding event: Exotics LUP Subgroup Meeting
+INDEX: skipping existing event Exotics LUP Subgroup Meeting
+--------------------------------------------------
+INDEX: Adding event: Exotics: Lepton + X
+INDEX: skipping existing event Exotics: Lepton + X
+--------------------------------------------------
+INDEX: Adding event: Heavy Quarks and Top Subgroup Meeting
+INDEX: skipping existing event Heavy Quarks and Top Subgroup Meeting
+--------------------------------------------------
+INDEX: Adding event: Exotics: Lepton + X
+INDEX: skipping existing event Exotics: Lepton + X
+--------------------------------------------------
+INDEX: Adding event: Heavy Quarks and Top Subgroup Meeting
+INDEX: skipping existing event Heavy Quarks and Top Subgroup Meeting
+--------------------------------------------------
+INDEX: Adding event: Heavy Quarks and Top Subgroup Meeting
+INDEX: skipping existing event Heavy Quarks and Top Subgroup Meeting
+--------------------------------------------------
+INDEX: Adding event: Heavy Quarks and Top Subgroup Meeting
+INDEX: skipping existing event Heavy Quarks and Top Subgroup Meeting
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
 Char: 106 j
+Moving s
+Char: 107 k
+Moving n
+Char: 99 c
+VIEW: making dialog screen
+Char for dialog navigation: 10 
+
+MODEL: modified event cat=test
+VIEW: making screens
+INDEX: modified event cat=test
+INDEX: Saving to /home/prime/dev/isocal2/data
+INDEX: <synchronize> year 2025
+INDEX: Saving 2025 to /home/prime/dev/isocal2/data/2025.csv
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
 Char: 106 j
+Moving s
+Char: 108 l
+Moving e
+Char: 107 k
+Moving n
+Char: 99 c
+VIEW: making dialog screen
+Char for dialog navigation: 106 j
+Char for dialog navigation: 107 k
+Char for dialog navigation: 99 c
+Char for dialog: 116 t
+Char for dialog: 101 e
+Char for dialog: 115 s
+Char for dialog: 116 t
+Char for dialog: 10 
+
+Char for dialog navigation: 10 
+
+MODEL: modified event cat=exotics
+VIEW: making screens
+INDEX: modified event cat=exotics
+INDEX: Saving to /home/prime/dev/isocal2/data
+INDEX: <synchronize> year 2025
+INDEX: Saving 2025 to /home/prime/dev/isocal2/data/2025.csv
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
 Char: 106 j
+Moving s
+Char: 106 j
+Moving s
+Char: 104 h
+Moving w
+Char: 107 k
+Moving n
+Char: 107 k
+Moving n
+Char: 99 c
+VIEW: making dialog screen
+Char for dialog navigation: 107 k
+Char for dialog navigation: 106 j
+Char for dialog navigation: 107 k
+Char for dialog navigation: 106 j
+Char for dialog navigation: 99 c
+Char for dialog: 104 h
+Char for dialog: 101 e
+Char for dialog: 108 l
+Char for dialog: 108 l
+Char for dialog: 111 o
+Char for dialog: 10 
+
+Char for dialog navigation: 10 
+
+MODEL: modified event cat=test
+VIEW: making screens
+INDEX: modified event cat=test
+INDEX: Saving to /home/prime/dev/isocal2/data
+INDEX: <synchronize> year 2025
+INDEX: Saving 2025 to /home/prime/dev/isocal2/data/2025.csv
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+Char: 106 j
+Moving s
+Char: 99 c
+VIEW: making dialog screen
+Char for dialog navigation: 410 ƚ
+VIEW: 43 65
+VIEW: doing rescale
+VIEW: clearCommandScreen
+VIEW: clearlistScreen
+VIEW: cleargridScreen
+VIEW: making screens
+VIEW: making dialog screen
+VIEW: making dialog screen
+VIEW: making search screen
+Char for dialog navigation: 410 ƚ
+VIEW: 45 132
+VIEW: doing rescale
+VIEW: clearCommandScreen
+VIEW: clearlistScreen
+VIEW: cleargridScreen
+VIEW: making screens
+VIEW: making dialog screen
+VIEW: making dialog screen
+VIEW: making search screen
+Char for dialog navigation: 107 k
+Char for dialog navigation: 106 j
+Char for dialog navigation: 99 c
+Char for dialog: 104 h
+Char for dialog: 10 
+
+Char for dialog navigation: 10 
+
+MODEL: modified event cat=indico
+INDEX: modified event cat=indico
+INDEX: Saving to /home/prime/dev/isocal2/data
+INDEX: <synchronize> year 2025
+INDEX: Saving 2025 to /home/prime/dev/isocal2/data/2025.csv
+VIEW: making screens
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+INDEX: <synchronize> year 2025
+Char: 106 j
+Moving s
 Char: 113 q
 MODEL: Stopping controller
+MODEL: Stopping index
 MODEL: Stopping view

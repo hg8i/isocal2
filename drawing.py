@@ -20,8 +20,18 @@ def _drawBoxOutline(window,y,x,h,l,char,color):
     _point(window,y+h,x+l,curses.ACS_LRCORNER,color=color)
 
 def _drawIntersect(window,y,x,symbol,color):
-    if symbol=="x":
-        _point(window,y,x,curses.ACS_PLUS,color=color)
+    chMap = {}
+    chMap["x"] = curses.ACS_PLUS
+    chMap["n"] = curses.ACS_TTEE
+    chMap["s"] = curses.ACS_BTEE
+    chMap["e"] = curses.ACS_RTEE
+    chMap["w"] = curses.ACS_LTEE
+    chMap["nw"] = curses.ACS_ULCORNER
+    chMap["ne"] = curses.ACS_URCORNER
+    chMap["sw"] = curses.ACS_LLCORNER
+    chMap["se"] = curses.ACS_LRCORNER
+
+    _point(window,y,x,chMap[symbol],color=color)
 
 def _drawBoxLine(window,y,x,l,char,color=0):
     """ Draw Line across box """
@@ -43,21 +53,46 @@ def log(*text):
     f.close()
 
 def _text(window,y,x,s,color=3,bold=False,reverse=False,underline=False):
+    screenY,screenX = window.getmaxyx()
     _move(window,int(y),int(x))
-    label=str(s)
-
     color = curses.color_pair(color)
-
     # if bold: color |= curses.A_UNDERLINE
     if bold: color |= curses.A_BOLD
     if reverse: color |= curses.A_REVERSE
     if underline: color |= curses.A_UNDERLINE
-    # log("-"*50)
-    # log(window)
-    # log(label)
+    if y==screenY-1:
+        label=str(s)[:screenX-1]
+    else:
+        label=str(s)[:screenX]
     try:
         window.addstr(label,color)
-    except: pass
+    except: 
+        # usually a text overflow to next line, it's okay
+        pass
+
+        # log("="*50)
+        # log(f"DRAWING: error with {x},{y},{s}")
+        # log("="*50)
+        # # quit()
+
+# def _text(window,y,x,s,color=10):
+#     screenY,screenX = window.getmaxyx()
+#     _move(window,int(y),int(x))
+#     # Note: addstr tries to insert line break after end of screen
+#     # If this extends past bottom of screen, error, so trim off
+#     if y==screenY-1:
+#         label=str(s)[:screenX-1]
+#     else:
+#         label=str(s)[:screenX]
+#     # window.addstr(label,curses.color_pair(color))
+#     try:
+#         window.addstr(label,curses.color_pair(color))
+#     except: 
+#         log("="*50)
+#         log(f"DRAWING: error with {x},{y},{s}")
+#         log("="*50)
+#         quit()
+
 
 
 def _point(window,y,x,c,color=0):
@@ -94,5 +129,6 @@ def _move(window,y,x):
     try:
         window.move(int(y),int(x))
     except:
-        raise BaseException("Failed moving x={0}, y={1}".format(x,y))
+        pass
+        # raise BaseException("Failed moving x={0}, y={1}".format(x,y))
 
