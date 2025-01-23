@@ -3,10 +3,6 @@ import view
 import controller
 from index import *
 from icsDownload import *
-# import index
-# import noteloader
-# import editWatcher
-# import dialog
 
 class model:
 
@@ -54,6 +50,9 @@ class model:
 
 
         self.startIndex() # before updateContent
+
+        self._messageTime = time.time()
+        self._messageTimeout = 5
 
 
         # navigation state
@@ -174,6 +173,7 @@ class model:
 
     def message(self,text):
         """ Display a message """
+        self._messageTime = time.time()
         data = {}
         data["type"] = "message"
         data["value"] = text
@@ -215,7 +215,6 @@ class model:
             event["uniqueid"]  = hash(str(time.time())+"yanked"+event.name)
             event["modified"] = time.time()
             self._index_i.put({"type":"addEvent","event":event})
-            self.message(f"Added event from clipboard {day.strftime('%d/%m/%y')}")
             self.updateContent()
 
     def _runSearchTopLoop(self):
@@ -398,7 +397,6 @@ class model:
                 self._index_i.put({"type":"addEvent","event":event})
 
             self.updateContent()
-            self.message(f"Added event: {event}")
 
         # setup
         if mode=="changeEvent":
@@ -816,7 +814,7 @@ class model:
     def run(self):
 
         # download updates on startup
-        self._act_icsUpdate()
+        # self._act_icsUpdate()
 
         self.updateContent()
 
@@ -827,12 +825,14 @@ class model:
         self.processResize()
         self._sendGridFocusUpdate()
 
+
         while True:
             self._event.wait()
             self._event.clear()
 
             while not self._char_queue.empty():
-                self.message(f"")
+                if time.time()-self._messageTime>self._messageTimeout:
+                    self.message(f"")
                 char = self._char_queue.get()
                 log("Char:",char,chr(char))
                 if chr(char) in self._hotkeyMap.keys():
@@ -840,6 +840,8 @@ class model:
                     self._commandMap[command](None)
                 if char==410: #resize
                     self.processResize()
+
+                self._index_i.put({"type":"ping"})
 
             # updates from ICS download
             iEvent=0
@@ -868,6 +870,10 @@ class model:
                     self._act_select(0) # update focus for new day content
 
                 elif update["type"] == "error":
+                    status = update["status"]
+                    self.message(f"Index error: {status}")
+
+                elif update["type"] == "message":
                     status = update["status"]
                     self.message(f"Index: {status}")
 

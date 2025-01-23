@@ -78,7 +78,9 @@ class icsDownload:
         """ Download ICS file via URL
             Return as list of "event dictionaries" 
         """
-        response = request.urlopen(url).read().splitlines()
+        try:
+            response = request.urlopen(url).read().splitlines()
+        except: return {}
         response = [s.decode("utf-8") for s in response]
         # checks
         if response[0]!="BEGIN:VCALENDAR": raise BaseException("Bad ICS response")

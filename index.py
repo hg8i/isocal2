@@ -1,4 +1,3 @@
-# import dill as pickle
 from setup import *
 
 """
@@ -110,7 +109,8 @@ class calindex:
         self._modtimeAtLoad  = {}
         self._ids        = defaultdict(list) # created dynamic
         self._modifiedYears = defaultdict(int)
-        self.maxDepth = 5
+        self.maxDepth = 2
+        self.debugCount = 0
 
     # def idExists(self,year,uniqueid):
     #     """ check if id exists, stored in file """
@@ -123,12 +123,12 @@ class calindex:
 
         while True:
             update = self._input.get()
-            # log(f"DEBUG INDEX: update={update}")
+            log(f"DEBUG INDEX: update={update}")
             if update["type"]=="quit":
                 return
 
             if update["type"]=="ping":
-                log("DEBUG index got ping")
+                log("INDEX: debug got ping")
                 data = {"type":"debug"}
                 self._output.put(data)
 
@@ -211,6 +211,9 @@ class calindex:
         # self.synchronize()
         # log("Index retrieving days")
         # log("="*50)
+        years = set([d.year for d in days])
+        [self.synchronize(y) for y in years]
+
         for day in days:
             ret[day] = self.getEventsOnDay(day)
             # log(day,ret[day])
@@ -220,7 +223,8 @@ class calindex:
     def getEventsOnDay(self,day):
         """ Return events on day """
 
-        self.synchronize(day.year)
+        # self.synchronize(day.year)
+        # return []
 
         # # testing: events with day number 
         # return [dummyEvent(day)]
@@ -330,16 +334,23 @@ class calindex:
             # log("DEBUG:",event)
             data[event.date].append(event)
         iFile.close()
+        # self.message(f"Loaded {path}")
         return data
 
     def _load(self,year):
         """ Load this year """
-        self._checkDirectoryPermission()
+
+
         if year in self._data.keys(): return
         log(f"INDEX: Loading year {year}")
         path = self._getPath(year)
         if not os.path.exists(path):
-            self._modtimeAtLoad[year] = None
+            self.error(f"Unable to load file for {year}")
+            self._modtimeAtLoad[year] = -1 # set to -1 in case later load reveals file
+            self._data[year] = {}
+        elif self._checkBadDirectoryPermissions(f"loading"):
+            self.error(f"Unable to load file for {year}: {self._checkBadDirectoryPermissions()}")
+            self._modtimeAtLoad[year] = -1 # set to -1 in case later load reveals file
             self._data[year] = {}
         else:
             self._modtimeAtLoad[year] = os.path.getmtime(path)
@@ -347,6 +358,34 @@ class calindex:
             # add uniqueids
             self._ids[year] = [e["uniqueid"] for events in self._data[year].values() for e in events]
             # self._ids[year] = [e["uniqueid"] for e in events]
+
+
+    def _save(self):
+        """ Save changes based on _modifiedYears """
+        # Return True if successful
+        log(f"INDEX: Saving to {self._dataPath}")
+        if self._checkBadDirectoryPermissions("saving"):
+            return
+        for year in self._modifiedYears.keys():
+            # save data for this year
+            path = self._getPath(year)
+            if self.synchronize(year):
+                return False
+            if len(self._data[year])==0: continue
+            log(f"INDEX: Saving {year} to {path}")
+            try:
+                oFile = open(path,"w")
+                oFile.write(f"# Year {year}, created {datetime.now()} \n")
+                for day,events in self._data[year].items():
+                    oFile.write(f"## Day {day}\n")
+                    for event in events:
+                        oFile.write(repr(event)+"\n")
+                self._modtimeAtLoad[year] = os.path.getmtime(path)
+                oFile.close()
+            except:
+                self.error(f"Failed to write to {path}")
+                return False
+        return True
 
     def synchronize(self,year):
         log(f"INDEX: <synchronize> year {year}")
@@ -376,50 +415,40 @@ class calindex:
         return False
 
 
-    def _save(self):
-        """ Save changes based on _modifiedYears """
-        # Return True if successful
-        self._checkDirectoryPermission()
-        log(f"INDEX: Saving to {self._dataPath}")
-        for year in self._modifiedYears.keys():
-            # save data for this year
-            path = self._getPath(year)
-            if self.synchronize(year):
-                return False
-            if len(self._data[year])==0: continue
-            log(f"INDEX: Saving {year} to {path}")
-            with open(path,"w") as oFile:
-                oFile.write(f"# Year {year}, created {datetime.now()} \n")
-                for day,events in self._data[year].items():
-                    oFile.write(f"## Day {day}\n")
-                    for event in events:
-                        oFile.write(repr(event)+"\n")
-                self._modtimeAtLoad[year] = os.path.getmtime(path)
-        return True
+    def message(self,msg):
+        """ Send error message to model """
+        if self._output: 
+            data = {}
+            data["type"] = "message"
+            data["status"] = msg
+            self._output.put(data)
+            self._event.set()
+        else:
+            print(msg)
 
+    def error(self,msg):
+        """ Send error message to model """
+        log(f"INDEX: error={msg}")
+        if self._output: 
+            data = {}
+            data["type"] = "error"
+            data["status"] = msg
+            self._output.put(data)
+            self._event.set()
+        else:
+            print(msg)
 
-
-    def _checkDirectoryPermission(self):
+    def _checkBadDirectoryPermissions(self,opt=""):
         """ see if permissions for directory, try recovery """
         # path = os.path.join(self._dataPath,f"{year}.csv")
-        status = settings["refreshPermission"](self._dataPath)
+        status = settings["dataPathOk"](self._dataPath)
+
         if status:
-            if self._output:
-                data = {}
-                data["type"] = "error"
-                data["status"] = f"directory permissions {status}"
-                self._output.put(data)
-                self._event.set()
-            else:
-                print(f"Permissions error: read={not noRead} write={not noWrite}. Recovery={cmd}: {result.stdout}")
-                # quit()
-            return True
-        return False
-
-
-    def load(self,oFile):
-        """ Replacement for data load """
-        return {}
+            self.debugCount+=1
+            self.error(f"Bad directory permissions failed {opt} {self.debugCount} times. {status}")
+        return status
+            # return True
+        # return False
 
     def __str__(self):
         s = "Calendar index\n"
