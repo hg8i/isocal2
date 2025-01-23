@@ -697,11 +697,12 @@ class model:
     def _getDatetime(self,year,week,day):
         """ Get datetime object from week/year/day"""
         mod = 0
+        # self._state_year
         if week<0:
             mod  = math.floor(week/52)
             week%=52
         elif week>52:
-            mod  = 1
+            mod  = math.floor(week/52)
             week%=52
         s = f"{year+mod}-{week}-{(day+1)%7}"
         dt = datetime.strptime(s,"%Y-%W-%w")
