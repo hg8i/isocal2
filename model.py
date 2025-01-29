@@ -67,6 +67,7 @@ class model:
         self._state_updateContentCounter = 0
         self._state_clipboard = False
         self._state_viewUpdates = {}
+        self._state_updateTrackingVersion = 0 # track versions of updates
         self._act_jump(now())
 
 
@@ -331,6 +332,8 @@ class model:
             self._dialogFields += [{"name":"dataPath","type":"label","content":settings["dataPath"]}]
             self._dialogFields += [{"name":"Hotkeys","type":"divider","content":"-"}]
             for k,v in settings["hotkeyMap"].items():
+                if "hidden" in v.keys() and v["hidden"]:
+                    continue
                 self._dialogFields += [{"name":k,"type":"label","content":v["description"]}]
 
             data = {}
@@ -719,6 +722,7 @@ class model:
         self._state_iDayToday = -1
         self._state_iWeekToday = -1
         self._state_updateContentCounter+=1
+        self._state_updateTrackingVersion+=1
         # self.message(f"Updates: {self._state_updateContentCounter}")
 
         # first, post requests to index
@@ -742,7 +746,7 @@ class model:
             yearNames.append(dt.year)
         
         # post request for day data
-        self._index_i.put({"type":"getEventsOnDays","days":days})
+        self._index_i.put({"type":"getEventsOnDays","days":days,"updateTrackingVersion":self._state_updateTrackingVersion})
 
         # update week numbers
         data = {}
@@ -815,7 +819,7 @@ class model:
     def run(self):
 
         # download updates on startup
-        # self._act_icsUpdate()
+        self._act_icsUpdate()
 
         self.updateContent()
 
@@ -831,6 +835,7 @@ class model:
             self._event.wait()
             self._event.clear()
 
+            # updates from character input
             while not self._char_queue.empty():
                 if time.time()-self._messageTime>self._messageTimeout:
                     self.message(f"")
@@ -856,11 +861,16 @@ class model:
                 self.message(f"Synchronized {iEvent} events: {update['name']}")
                 self.updateContent()
 
+            # updates of data from index 
             while not self._index_o.empty():
                 update = self._index_o.get()
 
                 if update["type"] == "getEventsOnDays":
                     self._contents = defaultdict(lambda:defaultdict(lambda:{"events":[],"dt":dt}))
+                    # confirm that update corresponds to the most recent request
+                    updateTrackingVersion = update["updateTrackingVersion"]
+                    if updateTrackingVersion != self._state_updateContentCounter:
+                        continue
                     eventsByDay = update["eventsByDay"]
                     for dt,events in eventsByDay.items():
                         iWeek = self._dtToNumber[dt][0]

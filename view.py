@@ -753,7 +753,7 @@ class view:
         screenY,screenX = self._screen.getmaxyx()
         nLabels  = sum([1 for f in self._dialogFields if f["type"] in ["label","divider"]])
         nEntries = sum([1 for f in self._dialogFields if f["type"] in ["int","radio","text","map"]])
-        targetW = 50;
+        targetW = 60;
         targetH = 2+nEntries*3+nLabels*1
         w = min(targetW,screenX-8)
         h = min(targetH,screenY-8)

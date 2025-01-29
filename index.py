@@ -157,6 +157,7 @@ class calindex:
                 data = {}
                 data["type"] = "getEventsOnDays"
                 data["eventsByDay"] = self.getEventsOnDays(update["days"])
+                data["updateTrackingVersion"] = update["updateTrackingVersion"]
                 self._output.put(data)
                 self._event.set()
 
