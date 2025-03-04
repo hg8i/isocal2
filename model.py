@@ -68,6 +68,7 @@ class model:
         self._state_clipboard = False
         self._state_viewUpdates = {}
         self._state_updateTrackingVersion = 0 # track versions of updates
+        self._state_latestSearch = False
         self._act_jump(now())
 
 
@@ -88,10 +89,17 @@ class model:
 
 
     def _act_refresh(self):
+        self.message("")
         self.updateContent()
         self.processResize()
 
     def _act_quit(self):
+        if self.icsDownloadThread and self.icsDownloadThread.is_alive():
+            # if alive, don't interrupt
+            self.message("Waiting for ICS update to finish")
+            return
+            # while self.icsDownloadThread.is_alive(): 
+
         self.stopIcsDownload() # do first
         self.stopController()
         self.stopIndex()
@@ -238,8 +246,18 @@ class model:
                 if char==410: #resize
                     self.processResize()
 
+
+                if char == settings["enterChar"]:
+                    # self._state_cursorPos = -1
+                    # self._sendDialogFieldsUpdate()
+                    # # go to the selected day
+                    goto = self._state_searchHits[self._state_searchFocus]["date"]
+                    self._state_latestSearch = self._state_searchHits[self._state_searchFocus] 
+                    self._act_jump(goto)
+
                 # exit or quit
-                elif char in [settings["escapeChar"],settings["enterChar"]]:
+                if char in [settings["escapeChar"],settings["enterChar"]]:
+                    self._state_cursorPos = -1
                     data = {}
                     data["type"] = "search"
                     data["instruction"] = "close"
@@ -247,11 +265,7 @@ class model:
                     return
 
                 else:
-                    if char in [settings["escapeChar"],settings["enterChar"]]:
-                        self._state_cursorPos = -1
-                        self._sendDialogFieldsUpdate()
-                        return
-                    elif char == settings["downArrowChar"]:
+                    if char == settings["downArrowChar"]:
                         self._state_searchFocus+=1
                         self._state_searchFocus%=len(self._state_searchHits)
                     elif char == settings["upArrowChar"]:
@@ -577,14 +591,20 @@ class model:
         week = target.isocalendar().week
 
         nWeeksShowBefore = settings["showPrevWeeks"]*(self._state_nWeeksY>1)
-        self._state_year = year
-        self._state_week = now().isocalendar().week-1-nWeeksShowBefore
+        nWeeksShowBefore = 0
+        self._state_leadDay = target-timedelta(days=7*nWeeksShowBefore) # minus...
+        # leadDay is monday of week, subtract day number
+        self._state_leadDay-=timedelta(days=target.weekday())
+
+
         self._state_iDayFocus = target.weekday()
         self._state_iWeekFocus = nWeeksShowBefore
         self._state_iContentFocus = 0
 
         self.updateContent()
         self._sendGridFocusUpdate()
+
+        self.message(f"Jump to {target}, lead={self._state_leadDay}, focus={self._state_iWeekFocus}") #TODO: fixme
 
     def _act_icsUpdate(self):
         """ Download ICS updates """
@@ -629,11 +649,11 @@ class model:
             self._state_iWeekFocus+=1
 
         if self._state_iWeekFocus<0:
-            self._state_week+=self._state_iWeekFocus
+            self._state_leadDay+=timedelta(days=7*self._state_iWeekFocus)
             self._state_iWeekFocus=0
             scroll = True
         if self._state_iWeekFocus>=self._state_nWeeksY:
-            self._state_week+=self._state_iWeekFocus-self._state_nWeeksY+1
+            self._state_leadDay+=timedelta(days=7*(self._state_iWeekFocus-self._state_nWeeksY+1))
             self._state_iWeekFocus=self._state_nWeeksY-1
             scroll = True
 
@@ -641,7 +661,6 @@ class model:
             self.updateContent()
 
         self._sendGridFocusUpdate()
-
 
     def _act_modNWeeks(self,n=1):
         """ Increment/decrement number of weeks shown """
@@ -691,31 +710,27 @@ class model:
 
     def getFocusedDay(self):
         """ Return current selected day datetime """
-        year = self._state_year
-        week = self._state_week+self._state_iWeekFocus
-        day  = self._state_iDayFocus
-        dt = self._getDatetime(year,week,day)
+        dt = self._state_leadDay+timedelta(weeks=self._state_iWeekFocus,days=self._state_iDayFocus)
         return dt
 
     def _getDatetime(self,year,week,day):
         """ Get datetime object from week/year/day"""
         mod = 0
-        # self._state_year
-        if week<0:
-            mod  = math.floor(week/52)
+        if week>53:
+            mod = math.floor((week)/52)
             week%=52
-        elif week>52:
-            mod  = math.floor(week/52)
-            week%=52
+
+        # note: %W Week number of the year (Monday as the first day of the week) as a zero-padded decimal number. All days in a new year preceding the first Monday are considered to be in week 0.
+        # https://docs.python.org/3/library/datetime.html
         s = f"{year+mod}-{week}-{(day+1)%7}"
         dt = datetime.strptime(s,"%Y-%W-%w")
         return dt
 
     def updateContent(self):
         """ Get grid of days to display """
-        start = self._state_week
+        start = int(self._state_leadDay.strftime("%W"))
         stop = start+self._state_nWeeksY
-        year = self._state_year
+        year = self._state_leadDay.year
         weekNumbers = []
         monthNames = []
         yearNames = []
@@ -740,8 +755,10 @@ class model:
 
                 self._dtToNumber[dt] = [iWeek,iDay]
 
-            # update left side text
-            weekNumbers.append(dt.isocalendar().week)
+                if iDay==0:
+                    # update left side text
+                    weekNumbers.append(dt.strftime("%W"))
+                    # weekNumbers.append(dt.isocalendar().week)
             monthNames.append(settings["monthNames"][dt.month%12-1])
             yearNames.append(dt.year)
         
@@ -785,10 +802,6 @@ class model:
     def stopIcsDownload(self):
         log("MODEL: Stopping icsDownloadThread")
         if self.icsDownloadThread:
-            # if alive, don't interrupt
-            while self.icsDownloadThread.is_alive(): 
-                self.message("Waiting for ICS update to finish")
-                time.sleep(0.1)
             self.icsDownloadThread.terminate()
 
 
@@ -819,7 +832,7 @@ class model:
     def run(self):
 
         # download updates on startup
-        self._act_icsUpdate()
+        # self._act_icsUpdate()
 
         self.updateContent()
 
@@ -869,8 +882,11 @@ class model:
                     self._contents = defaultdict(lambda:defaultdict(lambda:{"events":[],"dt":dt}))
                     # confirm that update corresponds to the most recent request
                     updateTrackingVersion = update["updateTrackingVersion"]
+
                     if updateTrackingVersion != self._state_updateContentCounter:
+                        # self.message(f"Out-of-date content ({updateTrackingVersion},{self._state_updateContentCounter})")
                         continue
+
                     eventsByDay = update["eventsByDay"]
                     for dt,events in eventsByDay.items():
                         iWeek = self._dtToNumber[dt][0]
@@ -879,6 +895,20 @@ class model:
 
                     self._updateDays()
                     self._act_select(0) # update focus for new day content
+
+                    # if waiting for search results, try to update _state_iContentFocus
+                    if self._state_latestSearch:
+                        iDay = self._state_iDayFocus
+                        iWeek = self._state_iWeekFocus
+                        dayContent = self._contents[iDay][iWeek]["events"]
+                        uniqueIds = [event["uniqueid"] for event in dayContent]
+                        for i,u in enumerate(uniqueIds):
+                            if u==self._state_latestSearch["uniqueid"]:
+                                self._state_iContentFocus = i
+                                self.message(f"Set focus {self._state_iContentFocus}")
+                                break
+                        self._act_select(0)
+                        self._state_latestSearch = False
 
                 elif update["type"] == "error":
                     status = update["status"]

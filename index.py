@@ -123,7 +123,7 @@ class calindex:
 
         while True:
             update = self._input.get()
-            log(f"DEBUG INDEX: update={update}")
+            # log(f"DEBUG INDEX: update={update}")
             if update["type"]=="quit":
                 return
 
@@ -181,7 +181,7 @@ class calindex:
 
                     if len(lTarget)==0:
                         matches.append(event)
-                    if all([s in repr(event).lower() for s in lTarget]):
+                    elif all([s in repr(event).lower() for s in lTarget]):
                         matches.append(event)
 
                     # matches+=self._data[year][day]

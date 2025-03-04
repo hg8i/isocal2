@@ -706,6 +706,7 @@ class view:
         for iWeek in range(nWeeksY):
             for iDay in range(nDaysX):
                 lines = self._content[iDay][iWeek]
+                # dayNumber = self._content_dt[iDay][iWeek] # more debug info
                 dayNumber = self._content_dt[iDay][iWeek].day
                 x = wMargin+1+colsPerDay*iDay
                 y = yCentering+3+linesPerWeek*iWeek

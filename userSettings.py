@@ -122,6 +122,7 @@ settings["hotkeyMap"] = hotkeyMap
 # How you do that is up to you
 settings["privateSettingsPath"] = "/home/prime/afs/remote/isocalPrivateSettings.py"
 settings["dataPath"] = "/afs/cern.ch/user/a/aawhite/remote/isocal2"
+# settings["dataPath"] = "data" # DEBUG
 
 def refreshAfs(iPath,depth=0):
     """ Refresh AFS permissions
