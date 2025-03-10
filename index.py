@@ -45,8 +45,10 @@ class eventdata:
                 # unmask values
                 v = v.replace(self.delim0Mask,self.delim0)
                 v = v.replace(self.delim1Mask,self.delim1)
-                if k in ["date"]:
+                if k == "date":
                     v = datetime.strptime(v,"%Y-%m-%d")
+                    # sanitize: no time
+                    v = v.replace(hour=0, minute=0, second=0, microsecond=0)
                 elif k in ["created","modified"]:
                     v = float(v)
 
@@ -55,13 +57,16 @@ class eventdata:
             self.name="noname"
     
     def __getitem__(self,k):
+        if k=="date":
+            v = getattr(self,k)
+            v = v.replace(hour=0, minute=0, second=0, microsecond=0)
+            return v
         return getattr(self,k)
 
     def __setitem__(self,k,v):
-        # sanitize
-        # if isinstance(v,str):
-        #     v = v.replace("=",self.delim0)
-        #     v = v.replace(",",self.delim1)
+        if k=="date":
+            # sanitize
+            v = v.replace(hour=0, minute=0, second=0, microsecond=0)
         setattr(self,k,v)
 
     def keys(self):
@@ -249,6 +254,8 @@ class calindex:
         log(f"INDEX: Adding event: {event}")
         # self.unaware(event)
         dt = event["date"]
+        # sanitize: no time
+        # dt = dt.replace(hour=0, minute=0, second=0, microsecond=0)
         uniqueid = event["uniqueid"]
         year = event["date"].year
         self._load(year)
@@ -267,6 +274,7 @@ class calindex:
         log(f"INDEX: Updated list: {self._data[year][dt]}")
         log(f"INDEX: Updated year: {year}")
         log(f"INDEX: Updated dt: {dt}")
+        log(f"INDEX: Updated event: {event}")
         # update modification time
         self._modifiedYears[year]+=1
         if not self._save(): self.addEvent(event,depth+1)
@@ -402,7 +410,7 @@ class calindex:
             log(f"INDEX: <synchronize> path not exist, no sync")
             return False
 
-        # log(f"INDEX: <synchronize> {self._modtimeAtLoad[year]}")
+        # log(f"INDEX: <synchronize> mod time: {self._modtimeAtLoad[year]} getmtime: {os.path.getmtime(path)}")
         boolFileModified  = self._modtimeAtLoad[year] and os.path.getmtime(path)>self._modtimeAtLoad[year]
         if boolFileModified:
             # if file has been modified,

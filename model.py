@@ -246,10 +246,8 @@ class model:
                 if char==410: #resize
                     self.processResize()
 
-
-                if char == settings["enterChar"]:
-                    # self._state_cursorPos = -1
-                    # self._sendDialogFieldsUpdate()
+                # determine where to jump to (if any in search)
+                if char == settings["enterChar"] and len(self._state_searchHits):
                     # # go to the selected day
                     goto = self._state_searchHits[self._state_searchFocus]["date"]
                     self._state_latestSearch = self._state_searchHits[self._state_searchFocus] 
@@ -414,6 +412,7 @@ class model:
                 self._index_i.put({"type":"addEvent","event":event})
 
             self.updateContent()
+
 
         # setup
         if mode=="changeEvent":
@@ -591,7 +590,6 @@ class model:
         week = target.isocalendar().week
 
         nWeeksShowBefore = settings["showPrevWeeks"]*(self._state_nWeeksY>1)
-        nWeeksShowBefore = 0
         self._state_leadDay = target-timedelta(days=7*nWeeksShowBefore) # minus...
         # leadDay is monday of week, subtract day number
         self._state_leadDay-=timedelta(days=target.weekday())
@@ -604,7 +602,7 @@ class model:
         self.updateContent()
         self._sendGridFocusUpdate()
 
-        self.message(f"Jump to {target}, lead={self._state_leadDay}, focus={self._state_iWeekFocus}") #TODO: fixme
+        # self.message(f"Jump to {target}, lead={self._state_leadDay}, focus={self._state_iWeekFocus}") #TODO: fixme
 
     def _act_icsUpdate(self):
         """ Download ICS updates """
@@ -773,6 +771,7 @@ class model:
         data["redraw"] = "grid"
         self._view_i.put(data)
 
+
     def startController(self):
         log("MODEL: Starting controller")
         self.controllerThread = multiprocessing.Process(target=self._controller.run)
@@ -832,7 +831,7 @@ class model:
     def run(self):
 
         # download updates on startup
-        # self._act_icsUpdate()
+        self._act_icsUpdate()
 
         self.updateContent()
 
@@ -888,10 +887,12 @@ class model:
                         continue
 
                     eventsByDay = update["eventsByDay"]
+                    n = 0
                     for dt,events in eventsByDay.items():
                         iWeek = self._dtToNumber[dt][0]
                         iDay  = self._dtToNumber[dt][1]
                         self._contents[iDay][iWeek]["events"]+=events
+                        n+=len(events)
 
                     self._updateDays()
                     self._act_select(0) # update focus for new day content
@@ -905,7 +906,7 @@ class model:
                         for i,u in enumerate(uniqueIds):
                             if u==self._state_latestSearch["uniqueid"]:
                                 self._state_iContentFocus = i
-                                self.message(f"Set focus {self._state_iContentFocus}")
+                                # self.message(f"Set focus {self._state_iContentFocus}")
                                 break
                         self._act_select(0)
                         self._state_latestSearch = False
