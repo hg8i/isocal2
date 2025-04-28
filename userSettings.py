@@ -60,6 +60,7 @@ uiColors["indico"]             = [defaultBg,color_subtle_grey]
 uiColors["french"]             = [defaultBg,color_purple]
 uiColors["travel"]             = [defaultBg,color_green]
 uiColors["ccs"]                = [defaultBg,color_salmon]
+uiColors["svj"]                = [defaultBg,color_dark_yellow]
 uiColors["exotics"]            = [defaultBg,color_dark_green]
 # put in settings
 settings["uiColors"]    = uiColors

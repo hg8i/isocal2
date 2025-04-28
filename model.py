@@ -48,6 +48,7 @@ class model:
         self._commandMap["search"]      = lambda cmds: self._act_search()
         self._commandMap["icsUpdate"]   = lambda cmds: self._act_icsUpdate()
 
+        self._periods = ["week","biweek","month","year","day"]
 
         self.startIndex() # before updateContent
 
@@ -329,6 +330,59 @@ class model:
 
         self._runSearchTopLoop()
 
+    def _safeIncrementDate(self,dt,nYear,nMonth):
+        """ Safely increment dt by nYear and nMonth, rounding down days when needed """
+        mod = 0
+        while dt.day-mod>=1:
+            try:
+                return dt.replace(year=dt.year+nYear,month=dt.month+nMonth,day=dt.day-mod)
+            except:
+                mod+=1
+        self.message(f"Failed to copy event: {dt}, y+={nYear}, m+={nMonth}. Mod={mod}")
+        return False
+
+    def _copyEvent(self,fields):
+        repeats = range(1,fields["repeat"]+1)
+        focus = self.getFocusedDay()
+        period = self._periods[fields["period"]]
+
+        if period in ["year","month"]:
+            # variable length increments need to be handled differently
+            if period == "year":
+                    datesToRepeat = [self._safeIncrementDate(focus,r,0) for r in repeats]
+            if period == "month":
+                    datesToRepeat = [self._safeIncrementDate(focus,0,r) for r in repeats]
+        else:
+            # day, week, etc can be handled by timedelta
+            if period == "day":
+                delta = timedelta(days=1)
+            elif period == "week":
+                delta = timedelta(weeks=1)
+            elif period == "biweek":
+                delta = timedelta(weeks=2)
+            elif period == "month":
+                delta = timedelta(months=1)
+            else:
+                self.message(f"Invalid period {period} to repeat")
+                return
+            # list of datetimes to clone new event to
+            datesToRepeat = [focus+r*delta for r in repeats]
+
+        # process new event(s)
+        for iDate,date in enumerate(datesToRepeat):
+            if not date: continue
+            event = eventdata()
+            event["name"] = fields["name"]
+            event["date"] = date
+            event["uniqueid"]  = hash(str(time.time())+fields["name"]+str(iDate))
+            event["created"]  = time.time()
+            event["modified"] = time.time()
+            event["category"] = fields["category"]
+            event["time"] = fields["time"]
+            event["notes"] = "(R)"+fields["notes"] # denote repeated event
+            self._index_i.put({"type":"addEvent","event":event})
+
+
     def _act_dialog(self,mode):
         """ Pop up and process dialog window 
             Define self._dialogFields
@@ -360,15 +414,13 @@ class model:
 
         # setup
         if mode=="insertEvent":
-            periods = ["week","biweek","month","year","day"]
             self._dialogFields = []
             self._dialogFields += [{"name":"name","type":"text","content":""}]
             self._dialogFields += [{"name":"category","type":"text","content":settings["defaultCategory"]}]
             self._dialogFields += [{"name":"time","type":"text","content":""}]
             self._dialogFields += [{"name":"notes","type":"text","content":""}]
-            # self._dialogFields += [{"name":"repeat","type":"radio","content":False}]
             self._dialogFields += [{"name":"repeat","type":"int","content":0}]
-            self._dialogFields += [{"name":"period","type":"map","content":0,"list":periods}]
+            self._dialogFields += [{"name":"period","type":"map","content":0,"list":self._periods}]
 
             data = {}
             day = self.getFocusedDay().strftime("%d/%m/%y")
@@ -385,32 +437,20 @@ class model:
                 self.message("No event created")
                 return
 
-            if periods[fields["period"]] == "day":
-                delta = timedelta(days=1)
-            elif periods[fields["period"]] == "week":
-                delta = timedelta(weeks=1)
-            elif periods[fields["period"]] == "biweek":
-                delta = timedelta(weeks=2)
-            elif periods[fields["period"]] == "month":
-                delta = timedelta(months=1)
-            elif periods[fields["period"]] == "year":
-                delta = timedelta(years=1)
+            # creat event
+            event = eventdata()
+            event["name"] = fields["name"]
+            event["date"] = self.getFocusedDay()
+            event["uniqueid"]  = hash(str(time.time())+fields["name"])
+            event["created"]  = time.time()
+            event["modified"] = time.time()
+            event["category"] = fields["category"]
+            event["time"] = fields["time"]
+            event["notes"] = fields["notes"]
+            self._index_i.put({"type":"addEvent","event":event})
 
-            # process new event(s)
-            for repeat in range(fields["repeat"]+1):
-                event = eventdata()
-                event["name"] = fields["name"]
-                event["date"] = self.getFocusedDay()+repeat*delta
-                event["uniqueid"]  = hash(str(time.time())+fields["name"]+str(repeat))
-                event["created"]  = time.time()
-                event["modified"] = time.time()
-                event["category"] = fields["category"]
-                event["time"] = fields["time"]
-                event["notes"] = fields["notes"]
-                if repeat:
-                    event["notes"] = "(R)"+fields["notes"]
-                self._index_i.put({"type":"addEvent","event":event})
 
+            self._copyEvent(fields)
             self.updateContent()
 
 
@@ -420,14 +460,13 @@ class model:
             if not event: 
                 self.message("No event to change")
                 return
-            periods = ["day","week","biweek","month","year"]
             self._dialogFields = []
             self._dialogFields += [{"name":"name","type":"text","content":event.name}]
             self._dialogFields += [{"name":"category","type":"text","content":event.category}]
             self._dialogFields += [{"name":"time","type":"text","content":event.time}]
             self._dialogFields += [{"name":"notes","type":"text","content":event.notes}]
             self._dialogFields += [{"name":"repeat","type":"int","content":0}]
-            self._dialogFields += [{"name":"period","type":"map","content":0,"list":periods}]
+            self._dialogFields += [{"name":"period","type":"map","content":0,"list":self._periods}]
 
             data = {}
             day = event.date.strftime("%d/%m/%y")
@@ -442,17 +481,6 @@ class model:
             fields = {f["name"]:f["content"] for f in self._dialogFields}
             if not fields["name"]: return
 
-            if periods[fields["period"]] == "day":
-                delta = timedelta(days=1)
-            elif periods[fields["period"]] == "week":
-                delta = timedelta(weeks=1)
-            elif periods[fields["period"]] == "biweek":
-                delta = timedelta(weeks=2)
-            elif periods[fields["period"]] == "month":
-                delta = timedelta(months=1)
-            elif periods[fields["period"]] == "year":
-                delta = timedelta(years=1)
-
             # process modifications to event
             event["name"] = fields["name"]
             event["date"] = self.getFocusedDay()
@@ -463,20 +491,8 @@ class model:
             self._index_i.put({"type":"modEvent","event":event})
             log(f"MODEL: modified event cat={fields['category']}")
 
-            # process new repeated events
-            for repeat in range(fields["repeat"]):
-                event = eventdata()
-                event["name"] = fields["name"]
-                event["date"] = self.getFocusedDay()+(1+repeat)*delta
-                event["uniqueid"]  = hash(str(time.time())+fields["name"]+str(repeat))
-                event["created"]  = time.time()
-                event["modified"] = time.time()
-                event["category"] = fields["category"]
-                event["time"] = fields["time"]
-                event["notes"] = "(R)"+fields["notes"]
-                self._index_i.put({"type":"addEvent","event":event})
 
-
+            self._copyEvent(fields)
             self.updateContent()
             self.message(f"Modified event: {event}")
 
