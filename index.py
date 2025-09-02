@@ -73,8 +73,12 @@ class eventdata:
         return dir(self)
 
     def __lt__(self,other):
-        stime = "time" in self.keys()
-        otime = "time" in other.keys()
+        """ Sort events based on
+            * time, if defined
+            * category, otherwise
+        """
+        stime = "time" in self.keys() and self.time
+        otime = "time" in other.keys() and other.time
         if stime and otime:
             return self.time<other.time
         elif stime:
@@ -82,7 +86,8 @@ class eventdata:
         elif otime:
             return True
         else:
-            return self.name<other.name
+            return self.category<other.category
+
 
     def __eq__(self,other):
             return self.uniqueid<other.uniqueid

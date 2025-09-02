@@ -2,7 +2,7 @@ settings = {}
 
 
 color_green=2
-color_brown=208
+# color_brown=208
 color_red=197
 color_white=231
 color_purple=5
@@ -17,11 +17,18 @@ color_dark_green=58
 color_dark_red=88
 color_salmon=9
 color_dark_yellow=178
+color_orange = 202
 color_dark_grey= 235
 color_mid_grey= 244
 color_light_grey= 252
 color_subtle_grey= 241
 color_midnight_blue=17
+color_white = 255
+color_brown = 94
+
+color_beige=11
+color_light_beige=223
+color_dark_brown=58
 
 settings["deleteChar"]     = 263
 settings["ctrlUChar"]      = 21
@@ -35,32 +42,35 @@ settings["rightArrowChar"] = 261
 
 
 uiColors = {}
-defaultBg = 237
-defaultFg = 251
+defaultBg = color_light_beige
+defaultFg = color_dark_brown
 defaultColor = [defaultBg,  defaultFg]
 # interface colors
 uiColors["commandView"]        = defaultColor
-uiColors["searchView"]         = [color_dark_blue,  defaultFg]
+uiColors["searchView"]         = [color_brown,  color_white]
 uiColors["searchFocus"]        = [color_dark_blue,  color_dark_cyan]
-uiColors["dialogView"]         = [color_dark_blue,  defaultFg]
-uiColors["dialogFocus"]        = [color_dark_blue,  color_dark_cyan]
+uiColors["dialogView"]         = [color_brown,  color_white]
+uiColors["dialogFocus"]        = [color_brown,  color_beige]
 uiColors["listView"]           = [defaultBg,  defaultFg]
 uiColors["gridView"]           =  defaultColor
 uiColors["dayNames"]           = [defaultBg, defaultFg]
-uiColors["highlight"]          = [defaultFg, defaultBg]
-uiColors["contentFocus"]       = [color_midnight_blue,  defaultFg]
-uiColors["firstDay"]           = [defaultBg, color_dark_yellow]
+uiColors["highlight"]          = [color_beige, defaultFg] # day highlight color
+# uiColors["contentFocus"]       = [color_midnight_blue,  defaultFg]
+# uiColors["contentFocus"]       = [color_brown,  color_white]
+uiColors["contentFocus"]       = [color_brown,  color_beige] # cursor highlight color
+uiColors["firstDay"]           = [defaultBg, color_dark_red]
 # category colors
 uiColors["eventDefault"]       =  defaultColor
 uiColors["invalidCategory"]    = [defaultBg, defaultFg]
-uiColors["work"]               = [defaultBg,color_cyan]
-uiColors["home"]               = [defaultBg,color_dark_blue]
+uiColors["work"]               = [defaultBg,color_dark_blue]
+uiColors["home"]               = [defaultBg,54]
 uiColors["crit"]               = [defaultBg,color_red]
 uiColors["indico"]             = [defaultBg,color_subtle_grey]
 uiColors["french"]             = [defaultBg,color_purple]
+uiColors["plan"]               = [defaultBg,color_purple]
 uiColors["travel"]             = [defaultBg,color_green]
 uiColors["ccs"]                = [defaultBg,color_salmon]
-uiColors["svj"]                = [defaultBg,color_dark_yellow]
+uiColors["svj"]                = [defaultBg,color_orange]
 uiColors["exotics"]            = [defaultBg,color_dark_green]
 # put in settings
 settings["uiColors"]    = uiColors

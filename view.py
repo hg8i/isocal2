@@ -89,7 +89,7 @@ class dayView:
                 color = self._color
             else:
                 color = eventToColor(event)
-            drawing._text(self._screen,y,x,event,color=color)
+            drawing._text(self._screen,y,x,event,color=color,bold=True)
 
     def update(self):
         # self._screen.erase()
