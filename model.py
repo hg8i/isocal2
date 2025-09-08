@@ -847,7 +847,7 @@ class model:
     def run(self):
 
         # download updates on startup
-        # self._act_icsUpdate()
+        self._act_icsUpdate()
 
         self.updateContent()
 
