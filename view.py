@@ -507,10 +507,10 @@ class view:
             # log("drawing list event",x,y,eventName)
             if iEvent+scroll==iContent:
                 color = self._colorContentFocus
-                drawing._text(s,y,x-2,cursor,color=self._colorDay)
+                drawing._text(s,y,x-2,cursor,color=self._colorDay,bold=True)
             if len(eventName)>maxLen:
                 eventName=eventName[:maxLen-1]+overflow
-            drawing._text(s,y,x,eventName,color=color)
+            drawing._text(s,y,x,eventName,color=color,bold=True)
 
         # draw dotted dots lines if some lines not displayed
         if scroll:
