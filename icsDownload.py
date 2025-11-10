@@ -66,7 +66,7 @@ class icsDownload:
         else:
             raise Exception("Not yet supported ICS timezone: {icsDate}")
 
-        dt_local = dt.astimezone(ZoneInfo(settings["timezone"]))
+        dt_local = dt_utc.astimezone(ZoneInfo(settings["timezone"]))
         localTime = dt_local.strftime("%H%M")
 
         # hashed datetimes have 0 time and 0 tzinfo
@@ -112,8 +112,9 @@ class icsDownload:
             elif "DTEND" in icEvent.keys(): key = "DTEND"
             else:
                 raise Exception("No time key found")
-            dt,localTime = self.icsConvertData(icEvent[key])
             name = icEvent["SUMMARY"]
+            log(f"Downloading ICS: {name}")
+            dt,localTime = self.icsConvertData(icEvent[key])
             if "require" in icsInfo.keys():
                 if not icsInfo["require"](name): continue
 
